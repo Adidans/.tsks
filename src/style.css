@@ -62,13 +62,17 @@ body{
 }
 
 .completeIcon{
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     background-color: #ff5c77;
     border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.completeIcon img{
+    width: 30px
 }
 
 .chartDiv{
@@ -84,7 +88,7 @@ body{
 
 .addProjectBtn{
     width: 100%;
-    height: 50%;
+    height: 130px;
     display: flex;
     justify-content: center;
     align-items: center;

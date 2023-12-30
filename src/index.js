@@ -1,3 +1,4 @@
-import { displayProjects } from "./projects";
+import { addProject, displayProjects, projects} from "./projects";
+import { displayProject } from "./project";
 
-displayProjects()
+displayProjects(projects)
