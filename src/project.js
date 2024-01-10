@@ -10,7 +10,7 @@ function displayProject(project) {
     let projectsButton = document.createElement("button");
     projectsButton.textContent = "Back to projects";
     projectsButton.addEventListener("click", () => {
-        console.log(projects);
+        location.reload();
     });
     content.appendChild(projectsButton);
 

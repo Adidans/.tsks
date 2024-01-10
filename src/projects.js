@@ -2,10 +2,16 @@ import Chart from "chart.js/auto";
 import "./style.css";
 import checkIcon from "./check.svg";
 import { displayProject } from "./project";
+import { format, formatDistance, subDays } from "date-fns";
 
 let content = document.getElementById(".content");
 
 let projectsDiv = document.querySelector(".projects");
+
+let dateInput = document.getElementById("date");
+
+const modal = document.querySelector(".modal");
+const overlay = document.querySelector(".overlay");
 
 let projects = [];
 
@@ -26,6 +32,11 @@ function Project(name, doneTodos, leftTodos) {
 
 function addProject(project) {
     projects.push(project);
+}
+
+function openModal() {
+    modal.classList.remove("hidden");
+    overlay.classList.remove("hidden");
 }
 
 function displayProjects(projects) {
@@ -74,6 +85,7 @@ function displayProjects(projects) {
             let completeIcon = document.createElement("div");
             completeIcon.classList.add("completeIcon");
             let check = document.createElement("img");
+            check.classList.add("completeIconImg");
             check.src = checkIcon;
             completeIcon.appendChild(check);
             bottom.appendChild(completeIcon);
@@ -108,6 +120,11 @@ function displayProjects(projects) {
     let addProjectBtn = document.createElement("button");
     addProjectBtn.classList.add("addProjectBtn");
     addProjectBtn.textContent = "+";
+    addProjectBtn.addEventListener("click", () => {
+        // let now = format(new Date(), "yyyy-MM-dd");
+        // dateInput.setAttribute("min", now);
+        openModal();
+    });
     projectsDiv.appendChild(addProjectBtn);
 }
 
