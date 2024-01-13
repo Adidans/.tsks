@@ -2,13 +2,41 @@ import Chart from "chart.js/auto";
 import "./style.css";
 import checkIcon from "./check.svg";
 import { displayProject } from "./project";
-import { format, formatDistance, subDays } from "date-fns";
+import { add, format, formatDistance, subDays } from "date-fns";
+
+let form = document.getElementById("addProjectForm");
+if (form) {
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        // Get the input value
+        let projectName = addProjectInput.value;
+
+        // Validate the input
+        if (!projectName) {
+            alert("Project name is required.");
+            return;
+        }
+
+        // Create a new project
+        let newProject = new Project(projectName, 0, 0); // Assuming new projects have 0 tasks
+
+        // Add the new project
+        addProject(newProject); // Assuming addProject returns the updated projects array
+
+        // Display the projects
+        displayProjects(projects);
+
+        // Clear the input field
+        addProjectInput.value = "";
+    });
+}
 
 let content = document.getElementById(".content");
 
 let projectsDiv = document.querySelector(".projects");
 
-let dateInput = document.getElementById("date");
+let addProjectInput = document.getElementById("addProjectInput");
 
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
@@ -21,7 +49,7 @@ let personal = new Project("Personal", 3, 2);
 addProject(personal);
 let design = new Project("Design", 15, 0);
 addProject(design);
-let groceries = new Project("Groceries", 2, 8);
+let groceries = new Project("Groceries", 0, 0);
 addProject(groceries);
 
 function Project(name, doneTodos, leftTodos) {
@@ -45,6 +73,7 @@ function closeModal() {
 }
 
 function displayProjects(projects) {
+    projectsDiv.innerHTML = "";
     for (let i = 0; i < projects.length; i++) {
         let project = document.createElement("div");
         project.classList.add("project");
@@ -66,8 +95,10 @@ function displayProjects(projects) {
 
         let todoCount = document.createElement("p");
         todoCount.classList.add("todoCount");
-        if (projects[i].leftTodos == 0) {
+        if (projects[i].leftTodos == 0 && projects[i].doneTodos != 0) {
             todoCount.textContent = `All ${projects[i].doneTodos} done!`;
+        } else if (projects[i].leftTodos == 0 && projects[i].doneTodos == 0) {
+            todoCount.textContent = `No todos yet`;
         } else {
             todoCount.textContent = `${projects[i].doneTodos}/${
                 projects[i].leftTodos + projects[i].doneTodos
@@ -85,7 +116,7 @@ function displayProjects(projects) {
 
         bottom.appendChild(chartDiv);
 
-        if (projects[i].leftTodos == 0) {
+        if (projects[i].leftTodos == 0 && projects[i].doneTodos != 0) {
             bottom.removeChild(chartDiv);
             let completeIcon = document.createElement("div");
             completeIcon.classList.add("completeIcon");
@@ -94,6 +125,8 @@ function displayProjects(projects) {
             check.src = checkIcon;
             completeIcon.appendChild(check);
             bottom.appendChild(completeIcon);
+        } else if (projects[i].leftTodos == 0 && projects[i].doneTodos == 0) {
+            bottom.removeChild(chartDiv);
         } else {
             new Chart(myChart, {
                 type: "doughnut",
@@ -126,9 +159,8 @@ function displayProjects(projects) {
     addProjectBtn.classList.add("addProjectBtn");
     addProjectBtn.textContent = "+";
     addProjectBtn.addEventListener("click", () => {
-        // let now = format(new Date(), "yyyy-MM-dd");
-        // dateInput.setAttribute("min", now);
         openModal();
+        addProjectInput.value = "";
     });
     overlay.addEventListener("click", closeModal);
     projectsDiv.appendChild(addProjectBtn);

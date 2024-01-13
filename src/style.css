@@ -113,12 +113,64 @@ body {
     z-index: 1;
 }
 
+.modal {
+    position: absolute; /* Changed from absolute to fixed */
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    top: 25%;
+    left: 35%;
+    width: 500px;
+    height: 130px;
+    background-color: #1f293b;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+}
+
 .hidden {
     display: none;
 }
 
-.modal {
-    position: absolute;
-    top: 20%;
-    z-index: 10;
+input[type="text"] {
+    width: 95%;
+    height: 30px;
+    border-radius: 10px;
+    border: solid 3px #2b3850;
+    padding: 10px;
+    font-size: 20px;
+    background-color: #1f293b;
+    color: white;
+}
+
+.btn-grad {
+    background-image: linear-gradient(
+        to right,
+        #ff512f 0%,
+        #dd2476 51%,
+        #ff512f 100%
+    );
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    border-radius: 10px;
+    display: block;
+    border: none;
+    font-weight: bold;
+}
+
+.btn-grad:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
