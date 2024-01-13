@@ -39,6 +39,11 @@ function openModal() {
     overlay.classList.remove("hidden");
 }
 
+function closeModal() {
+    modal.classList.add("hidden");
+    overlay.classList.add("hidden");
+}
+
 function displayProjects(projects) {
     for (let i = 0; i < projects.length; i++) {
         let project = document.createElement("div");
@@ -125,6 +130,7 @@ function displayProjects(projects) {
         // dateInput.setAttribute("min", now);
         openModal();
     });
+    overlay.addEventListener("click", closeModal);
     projectsDiv.appendChild(addProjectBtn);
 }
 
