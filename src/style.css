@@ -44,10 +44,26 @@ body {
 
 .projectTitle {
     font-size: 30px;
-    margin-bottom: -12px;
+    margin-top: 70px;
 }
 
 .todoCount {
+    color: gray;
+}
+
+.top {
+    display: flex;
+    height: 40px;
+    justify-content: space-between;
+}
+
+.deleteProjectBtn {
+    z-index: 2;
+    width: 40px;
+    font-size: 40px;
+    transform: rotate(45deg);
+    border: none;
+    background-color: transparent;
     color: gray;
 }
 
@@ -88,7 +104,8 @@ body {
 }
 
 .addProjectBtn {
-    width: 100%;
+    width: 260px;
+    justify-self: center;
     height: 130px;
     display: flex;
     justify-content: center;
@@ -110,7 +127,7 @@ body {
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(3px);
-    z-index: 1;
+    z-index: 3;
 }
 
 .modal {

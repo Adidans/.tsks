@@ -4,6 +4,23 @@ import checkIcon from "./check.svg";
 import { displayProject } from "./project";
 import { add, format, formatDistance, subDays } from "date-fns";
 
+let content = document.getElementById(".content");
+
+let projectsDiv = document.querySelector(".projects");
+
+let addProjectInput = document.getElementById("addProjectInput");
+
+const modal = document.querySelector(".modal");
+const overlay = document.querySelector(".overlay");
+
+let projects = JSON.parse(localStorage.getItem("projects")) || [];
+
+function Project(name, doneTodos, leftTodos) {
+    this.name = name;
+    this.doneTodos = doneTodos;
+    this.leftTodos = leftTodos;
+}
+
 let form = document.getElementById("addProjectForm");
 if (form) {
     form.addEventListener("submit", function (event) {
@@ -24,42 +41,37 @@ if (form) {
         // Add the new project
         addProject(newProject); // Assuming addProject returns the updated projects array
 
+        localStorage.setItem("projects", JSON.stringify(projects));
+
         // Display the projects
         displayProjects(projects);
 
         // Clear the input field
         addProjectInput.value = "";
+
+        closeModal();
     });
-}
-
-let content = document.getElementById(".content");
-
-let projectsDiv = document.querySelector(".projects");
-
-let addProjectInput = document.getElementById("addProjectInput");
-
-const modal = document.querySelector(".modal");
-const overlay = document.querySelector(".overlay");
-
-let projects = [];
-
-let school = new Project("School", 4, 4);
-addProject(school);
-let personal = new Project("Personal", 3, 2);
-addProject(personal);
-let design = new Project("Design", 15, 0);
-addProject(design);
-let groceries = new Project("Groceries", 0, 0);
-addProject(groceries);
-
-function Project(name, doneTodos, leftTodos) {
-    this.name = name;
-    this.doneTodos = doneTodos;
-    this.leftTodos = leftTodos;
 }
 
 function addProject(project) {
     projects.push(project);
+}
+
+function deleteProject(projectName) {
+    // Get the projects from local storage
+    let projects = JSON.parse(localStorage.getItem("projects")) || [];
+
+    // Find the index of the project to delete
+    let index = projects.findIndex((project) => project.name === projectName);
+
+    // If the project was found, remove it from the array
+    if (index !== -1) {
+        projects.splice(index, 1);
+    }
+
+    // Save the updated projects back to local storage
+    localStorage.setItem("projects", JSON.stringify(projects));
+    return projects;
 }
 
 function openModal() {
@@ -81,9 +93,26 @@ function displayProjects(projects) {
             displayProject(projects[i]);
         });
 
+        let top = document.createElement("div");
+        top.classList.add("top");
+
         let icon = document.createElement("div");
         icon.classList.add("icon");
-        project.appendChild(icon);
+        top.appendChild(icon);
+
+        let deleteProjectBtn = document.createElement("button");
+        deleteProjectBtn.classList.add("deleteProjectBtn");
+        deleteProjectBtn.textContent = "+";
+        deleteProjectBtn.addEventListener("click", (event) => {
+            event.stopPropagation();
+
+            projects = deleteProject(projects[i].name);
+
+            displayProjects(projects);
+        });
+        top.appendChild(deleteProjectBtn);
+
+        project.appendChild(top);
 
         let title = document.createElement("h2");
         title.classList.add("projectTitle");
