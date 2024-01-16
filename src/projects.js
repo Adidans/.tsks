@@ -15,10 +15,18 @@ const overlay = document.querySelector(".overlay");
 
 let projects = JSON.parse(localStorage.getItem("projects")) || [];
 
+function Todo(name, dueDate, priority, done) {
+    this.name = name;
+    this.dueDate = dueDate;
+    this.priority = priority;
+    this.done = false;
+}
+
 function Project(name, doneTodos, leftTodos) {
     this.name = name;
     this.doneTodos = doneTodos;
     this.leftTodos = leftTodos;
+    this.todos = [];
 }
 
 let form = document.getElementById("addProjectForm");
@@ -59,7 +67,7 @@ function addProject(project) {
 
 function deleteProject(projectName) {
     // Get the projects from local storage
-    let projects = JSON.parse(localStorage.getItem("projects")) || [];
+    projects = JSON.parse(localStorage.getItem("projects")) || [];
 
     // Find the index of the project to delete
     let index = projects.findIndex((project) => project.name === projectName);
@@ -156,6 +164,8 @@ function displayProjects(projects) {
             bottom.appendChild(completeIcon);
         } else if (projects[i].leftTodos == 0 && projects[i].doneTodos == 0) {
             bottom.removeChild(chartDiv);
+        } else if (projects[i].leftTodos != 0 && projects[i].doneTodos == 0) {
+            bottom.removeChild(chartDiv);
         } else {
             new Chart(myChart, {
                 type: "doughnut",
@@ -195,4 +205,4 @@ function displayProjects(projects) {
     projectsDiv.appendChild(addProjectBtn);
 }
 
-export { displayProjects, addProject, projects };
+export { displayProjects, addProject, projects, openModal, closeModal, Todo };
