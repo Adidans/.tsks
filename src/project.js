@@ -44,21 +44,27 @@ function displayProject(project) {
     addTodoText.classList.add("addTodoText");
     addTodoBtn.appendChild(addTodoText);
     addTodoBtn.addEventListener("click", () => {
-        let todo = new Todo(prompt("Enter todo title"));
+        let todoName = prompt("Enter todo title");
 
-        project.todos.push(todo);
+        let todo = new Todo(todoName);
 
-        project.leftTodos++;
+        if (todoName !== "") {
+            project.todos.push(todo);
 
-        let projectIndex = projects.findIndex((p) => p.name === project.name);
+            project.leftTodos++;
 
-        // Update the project in the projects array
-        if (projectIndex !== -1) {
-            projects[projectIndex] = project;
+            let projectIndex = projects.findIndex(
+                (p) => p.name === project.name
+            );
+
+            // Update the project in the projects array
+            if (projectIndex !== -1) {
+                projects[projectIndex] = project;
+            }
+
+            // Save the updated projects array to local storage
+            localStorage.setItem("projects", JSON.stringify(projects));
         }
-
-        // Save the updated projects array to local storage
-        localStorage.setItem("projects", JSON.stringify(projects));
 
         displayTodos(project);
     });
