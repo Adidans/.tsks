@@ -1,5 +1,6 @@
 import "./style.css";
 import checkIconPath from "./check.svg";
+import deleteIcon from "./delete.svg";
 import plus from "./plus.svg";
 import backArrow from "./arrow_back.svg";
 import {
@@ -144,12 +145,44 @@ function displayTodos(project) {
             doneDiv.classList.add("notDone");
         }
 
-        todoDiv.appendChild(doneDiv);
+        let left = document.createElement("div");
+        left.classList.add("left");
 
         let todoTitle = document.createElement("p");
         todoTitle.classList.add("todoTitle");
         todoTitle.textContent = todo.name;
-        todoDiv.appendChild(todoTitle);
+
+        left.appendChild(doneDiv);
+
+        left.appendChild(todoTitle);
+
+        todoDiv.appendChild(left);
+
+        let deleteTodoBtn = document.createElement("img");
+        deleteTodoBtn.classList.add("deleteTodoBtn");
+        deleteTodoBtn.src = deleteIcon;
+        deleteTodoBtn.addEventListener("click", () => {
+            let projects = JSON.parse(localStorage.getItem("projects")) || [];
+
+            let projectIndex = projects.findIndex(
+                (p) => p.name === project.name
+            );
+
+            if (projectIndex !== -1) {
+                let todoIndex = projects[projectIndex].todos.findIndex(
+                    (t) => t.name === todo.name
+                );
+
+                if (todoIndex !== -1) {
+                    projects[projectIndex].todos.splice(todoIndex, 1);
+
+                    localStorage.setItem("projects", JSON.stringify(projects));
+
+                    displayTodos(projects[projectIndex]);
+                }
+            }
+        });
+        todoDiv.appendChild(deleteTodoBtn);
 
         todosDiv.appendChild(todoDiv);
     });
