@@ -10,8 +10,8 @@ let projectsDiv = document.querySelector(".projects");
 
 let addProjectInput = document.getElementById("addProjectInput");
 
-const modal = document.querySelector(".modal");
-const overlay = document.querySelector(".overlay");
+let modal = document.querySelector(".modal");
+let overlay = document.querySelector(".overlay");
 
 let projects = JSON.parse(localStorage.getItem("projects")) || [];
 
@@ -19,7 +19,7 @@ function Todo(name, dueDate, priority, done) {
     this.name = name;
     this.dueDate = dueDate;
     this.priority = priority;
-    this.done = false;
+    this.done = done;
 }
 
 function Project(name, doneTodos, leftTodos) {
@@ -83,11 +83,15 @@ function deleteProject(projectName) {
 }
 
 function openModal() {
+    let modal = document.querySelector(".modal");
+    let overlay = document.querySelector(".overlay");
     modal.classList.remove("hidden");
     overlay.classList.remove("hidden");
 }
 
 function closeModal() {
+    let modal = document.querySelector(".modal");
+    let overlay = document.querySelector(".overlay");
     modal.classList.add("hidden");
     overlay.classList.add("hidden");
 }

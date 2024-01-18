@@ -214,12 +214,11 @@ form {
 
 .topBar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     gap: 20px;
     height: 60px;
-    padding: 0 20px;
     border-radius: 20px;
+    margin-bottom: 5px;
 }
 
 .addTodoBtn {
@@ -227,7 +226,7 @@ form {
     justify-content: flex-start;
     gap: 15px;
     align-items: center;
-    width: 100%;
+    width: 540px;
     height: 50px;
     padding: 10px;
     background-color: #141e30;
@@ -236,14 +235,46 @@ form {
     color: white;
 }
 
-.addTodoBtn img {
+.plusIconDiv {
     background-color: #ff5c77;
     border-radius: 12px;
     width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .addTodoText {
     font-size: 15px;
     color: gray;
     font-weight: bold;
+}
+
+.todoDiv {
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    gap: 20px;
+    height: 60px;
+    width: 500px;
+    padding: 0 20px;
+    border-radius: 20px;
+    background-color: #1f293b;
+    color: white;
+}
+
+.todosDiv {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.notDone {
+    border: #ff5c77 solid 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 8px;
 }
