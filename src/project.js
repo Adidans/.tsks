@@ -94,7 +94,7 @@ function displayProject(project) {
             closeModal();
             event.preventDefault();
 
-            let todo = new Todo(textInput.value);
+            let todo = new Todo(textInput.value, null, null, false);
 
             // Get the projects array from local storage
             let projects = JSON.parse(localStorage.getItem("projects")) || [];
@@ -111,6 +111,8 @@ function displayProject(project) {
 
                 // Save the updated projects array back to localStorage
                 localStorage.setItem("projects", JSON.stringify(projects));
+
+                updateTodoCounts();
 
                 displayTodos(projects[projectIndex]);
             }
@@ -145,6 +147,31 @@ function displayTodos(project) {
             doneDiv.classList.add("notDone");
         }
 
+        doneDiv.addEventListener("click", () => {
+            let projects = JSON.parse(localStorage.getItem("projects")) || [];
+
+            let projectIndex = projects.findIndex(
+                (p) => p.name === project.name
+            );
+
+            if (projectIndex !== -1) {
+                let todoIndex = projects[projectIndex].todos.findIndex(
+                    (t) => t.name === todo.name
+                );
+
+                if (todoIndex !== -1) {
+                    projects[projectIndex].todos[todoIndex].done =
+                        !projects[projectIndex].todos[todoIndex].done;
+
+                    localStorage.setItem("projects", JSON.stringify(projects));
+
+                    updateTodoCounts();
+
+                    displayTodos(projects[projectIndex]);
+                }
+            }
+        });
+
         let left = document.createElement("div");
         left.classList.add("left");
 
@@ -161,7 +188,8 @@ function displayTodos(project) {
         let deleteTodoBtn = document.createElement("img");
         deleteTodoBtn.classList.add("deleteTodoBtn");
         deleteTodoBtn.src = deleteIcon;
-        deleteTodoBtn.addEventListener("click", () => {
+        deleteTodoBtn.addEventListener("click", (event) => {
+            event.stopPropagation();
             let projects = JSON.parse(localStorage.getItem("projects")) || [];
 
             let projectIndex = projects.findIndex(
@@ -178,6 +206,8 @@ function displayTodos(project) {
 
                     localStorage.setItem("projects", JSON.stringify(projects));
 
+                    updateTodoCounts();
+
                     displayTodos(projects[projectIndex]);
                 }
             }
@@ -186,7 +216,26 @@ function displayTodos(project) {
 
         todosDiv.appendChild(todoDiv);
     });
-    console.log(project.todos);
+}
+
+function updateTodoCounts() {
+    let projects = JSON.parse(localStorage.getItem("projects")) || [];
+
+    projects.forEach((project) => {
+        project.leftTodos = 0;
+        project.doneTodos = 0;
+        project.todos.forEach((todo) => {
+            if (!todo.done) {
+                project.leftTodos++;
+            } else {
+                project.doneTodos++;
+            }
+        });
+    });
+
+    localStorage.setItem("projects", JSON.stringify(projects));
+
+    displayProjects(projects);
 }
 
 export { displayProject };
