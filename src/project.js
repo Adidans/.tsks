@@ -177,6 +177,9 @@ function displayTodos(project) {
 
         let todoTitle = document.createElement("p");
         todoTitle.classList.add("todoTitle");
+        if (todo.done) {
+            todoTitle.style.textDecoration = "line-through";
+        }
         todoTitle.textContent = todo.name;
 
         left.appendChild(doneDiv);
@@ -227,8 +230,10 @@ function updateTodoCounts() {
         project.todos.forEach((todo) => {
             if (!todo.done) {
                 project.leftTodos++;
+                console.log(todo);
             } else {
                 project.doneTodos++;
+                console.log(todo);
             }
         });
     });
